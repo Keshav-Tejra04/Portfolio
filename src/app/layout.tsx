@@ -27,10 +27,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jetbrainsMono.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${jetbrainsMono.variable} ${geistMono.variable} h-full overflow-hidden antialiased`}
     >
       <body 
-        className="min-h-full flex flex-col font-mono text-terminal-body selection:bg-terminal-primary/30"
+        className="h-full overflow-hidden flex flex-col font-mono text-terminal-body selection:bg-terminal-primary/30"
         suppressHydrationWarning
       >
         <ThemeProvider

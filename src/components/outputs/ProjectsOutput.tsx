@@ -46,10 +46,14 @@ const PROJECTS = [
   },
 ];
 
-export function ProjectsOutput() {
+export function ProjectsOutput({ projectId }: { projectId?: string }) {
+  const projectsToRender = projectId
+    ? PROJECTS.filter(p => p.id === projectId || p.name.toLowerCase().replace(" ", "_") === projectId.toLowerCase())
+    : PROJECTS;
+
   return (
     <div className="flex flex-col gap-8 max-w-4xl">
-      {PROJECTS.map((project, i) => (
+      {projectsToRender.map((project, i) => (
         <motion.div 
           key={project.id}
           initial={{ opacity: 0, x: -20 }}
@@ -58,8 +62,12 @@ export function ProjectsOutput() {
           className="border border-terminal-surface p-4 hover:border-terminal-primary transition-colors bg-terminal-bg"
         >
           <div className="flex items-end gap-4 border-b border-terminal-surface pb-2 mb-4">
-            <span className="text-2xl font-bold text-terminal-primary">PROJECT {project.id}</span>
-            <span className="text-lg text-terminal-secondary">{project.name}</span>
+            {!projectId && (
+              <span className="text-2xl font-bold text-terminal-primary">PROJECT {project.id}</span>
+            )}
+            <span className={projectId ? "text-2xl font-bold text-terminal-primary" : "text-lg text-terminal-secondary"}>
+              {project.name}
+            </span>
           </div>
 
           <p className="text-terminal-body font-bold mb-2">{project.subtitle}</p>
