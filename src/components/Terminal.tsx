@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import { useTerminal } from "@/hooks/useTerminal";
 import { BootSequence } from "./BootSequence";
 import { COMMANDS, FILE_SYSTEM } from "@/utils/commands";
-import { FakeAIOutput } from "./outputs/FakeAIOutput";
 import { MatrixRain } from "./MatrixRain";
 
 // Helper to get auto-completion ghost text
@@ -16,7 +15,7 @@ function getGhostText(input: string, cwd: string): string {
   const cmd = parts[0].toLowerCase();
   
   if (parts.length === 1) {
-    const cmds = Object.keys(COMMANDS);
+    const cmds = [...Object.keys(COMMANDS), "clear", "cls", "matrix"];
     const match = cmds.find(c => c.startsWith(cmd));
     return match ? match.slice(cmd.length) : "";
   }
@@ -262,7 +261,6 @@ function TypewriterHTML({ children, sound, entryId }: { children: React.ReactNod
 
 export function Terminal() {
   const [isBooting, setIsBooting] = useState(true);
-  const [isAiMode, setIsAiMode] = useState(false);
   const [isMatrixMode, setIsMatrixMode] = useState(false);
   const [time, setTime] = useState("");
   const { theme, setTheme } = useTheme();
@@ -352,7 +350,8 @@ export function Terminal() {
         } else {
           if (cmd === ".") {
             executeCommand(".", 
-              <div className="border border-terminal-surface bg-terminal-surface/30 p-4 my-2">
+              <div className="border border-terminal-surface bg-terminal-bg p-2 mt-1 mb-1">
+                <div className="text-terminal-secondary border-b border-terminal-surface pb-0.5 mb-1.5 text-xs font-bold">mail</div>
                 <div className="text-terminal-secondary font-bold mb-2">─── message ready ───</div>
                 <div><span className="text-terminal-secondary">To:</span> <span className="text-terminal-primary">{mailState.to}</span></div>
                 <div className="mb-4"><span className="text-terminal-secondary">Subject:</span> <span className="text-terminal-primary">{mailState.subject}</span></div>
@@ -382,18 +381,7 @@ export function Terminal() {
       const baseCmd = args[0].toLowerCase();
       const ctx = { cwd, setCwd, setTheme, crt, setCrt, sound, setSound, commandHistory, setMailState };
 
-      if (isAiMode) {
-        if (baseCmd === "exit") {
-          setIsAiMode(false);
-          executeCommand(cmd, <div className="text-terminal-secondary">Exiting AI Mode.</div>);
-        } else {
-          executeCommand(cmd, <FakeAIOutput query={cmd} />);
-        }
-        playClick(sound);
-        return;
-      }
-
-      if (baseCmd === "clear") {
+      if (baseCmd === "clear" || baseCmd === "cls") {
         clearHistory();
         setInput("");
         playClick(sound);
@@ -403,13 +391,6 @@ export function Terminal() {
       if (baseCmd === "matrix") {
         setIsMatrixMode(!isMatrixMode);
         executeCommand(cmd, <div className="text-terminal-secondary">Matrix mode {isMatrixMode ? "disabled" : "enabled"}.</div>);
-        playClick(sound);
-        return;
-      }
-
-      if (baseCmd === "ai") {
-        setIsAiMode(true);
-        executeCommand(cmd, <div className="text-terminal-primary">Entering AI Mode. Type 'exit' to return to normal terminal.</div>);
         playClick(sound);
         return;
       }
@@ -453,8 +434,6 @@ export function Terminal() {
   let promptPrefix = "";
   if (mailState) {
     promptPrefix = "mail(" + mailState.mode + ")▸";
-  } else if (isAiMode) {
-    promptPrefix = "ask>";
   } else {
     promptPrefix = "keshav@portfolio:" + cwd + "$";
   }
@@ -513,10 +492,8 @@ export function Terminal() {
             {history.map((entry) => (
               <div key={entry.id}>
                 <div className="flex gap-2 text-terminal-secondary">
-                  <span className={entry.command.startsWith("mail") || isAiMode ? "text-terminal-error" : "text-terminal-primary"}>
-                    {entry.command.toLowerCase().startsWith("who is") || isAiMode ? "ask>" : 
-                     entry.command.startsWith("mail") ? "mail▸" : 
-                     `keshav@portfolio:${cwd}$`}
+                  <span className={entry.command.startsWith("mail") ? "text-terminal-error" : "text-terminal-primary"}>
+                    {entry.command.startsWith("mail") ? "mail▸" : `keshav@portfolio:${cwd}$`}
                   </span>
                   <span className="text-terminal-body">{entry.command}</span>
                 </div>
@@ -533,7 +510,7 @@ export function Terminal() {
         {/* Input Prompt (Pinned to bottom) */}
         <div className="px-4 sm:px-8 py-4 border-t border-terminal-surface bg-terminal-bg flex-shrink-0">
           <div className="flex gap-2 text-terminal-secondary">
-            <span className={mailState || isAiMode ? "text-terminal-error" : "text-terminal-primary"}>{promptPrefix}</span>
+            <span className={mailState ? "text-terminal-error" : "text-terminal-primary"}>{promptPrefix}</span>
             <div className="relative flex-1 flex">
               <input
                 ref={inputRef}

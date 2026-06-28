@@ -4,8 +4,6 @@ import { ExperienceOutput } from "@/components/outputs/ExperienceOutput";
 import { ProjectsOutput } from "@/components/outputs/ProjectsOutput";
 import { SkillsOutput } from "@/components/outputs/SkillsOutput";
 import { MobileOutput } from "@/components/outputs/MobileOutput";
-import { StatsOutput } from "@/components/outputs/StatsOutput";
-import { AchievementsOutput } from "@/components/outputs/AchievementsOutput";
 import { ContactOutput } from "@/components/outputs/ContactOutput";
 
 export type TerminalContext = {
@@ -47,8 +45,6 @@ export const FILE_SYSTEM: Record<string, FSDirectory> = {
       "skills": { type: "dir" },
       "about.md": { type: "file", component: <AboutOutput /> },
       "experience.md": { type: "file", component: <ExperienceOutput /> },
-      "achievements.md": { type: "file", component: <AchievementsOutput /> },
-      "stats.txt": { type: "file", component: <StatsOutput /> },
       "contact.txt": { type: "file", component: <ContactOutput /> },
     },
   },
@@ -138,8 +134,6 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
           ))}
           <span className="text-terminal-secondary">clear</span>
           <span className="text-terminal-body">Clear terminal history</span>
-          <span className="text-terminal-secondary">ai</span>
-          <span className="text-terminal-body">Enter Fake AI Assistant mode</span>
         </div>
       </div>
     ),
@@ -238,8 +232,6 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
 │   └── mobile.md
 ├── about.md
 ├── experience.md
-├── achievements.md
-├── stats.txt
 └── contact.txt`;
       return <pre className="text-terminal-body whitespace-pre-wrap">{tree}</pre>;
     },
@@ -327,8 +319,6 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
   projects: { description: "Alias for `cat ~/projects/all_projects.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/projects/all_projects.md"], ctx) },
   skills: { description: "Alias for `cat ~/skills/core_skills.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/core_skills.md"], ctx) },
   mobile: { description: "Alias for `cat ~/skills/mobile.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/mobile.md"], ctx) },
-  stats: { description: "Alias for `cat ~/stats.txt`", handler: (args, ctx) => COMMANDS.cat.handler(["~/stats.txt"], ctx) },
-  achievements: { description: "Alias for `cat ~/achievements.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/achievements.md"], ctx) },
   contact: { description: "Alias for `cat ~/contact.txt`", handler: (args, ctx) => COMMANDS.cat.handler(["~/contact.txt"], ctx) },
   github: {
     description: "Open my GitHub profile",
