@@ -259,7 +259,7 @@ function TypewriterHTML({ children, sound, entryId }: { children: React.ReactNod
   );
 }
 
-export function Terminal() {
+export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void }) {
   const [isBooting, setIsBooting] = useState(true);
   const [isMatrixMode, setIsMatrixMode] = useState(false);
   const [time, setTime] = useState("");
@@ -379,7 +379,7 @@ export function Terminal() {
 
       const args = cmd.split(" ");
       const baseCmd = args[0].toLowerCase();
-      const ctx = { cwd, setCwd, setTheme, crt, setCrt, sound, setSound, commandHistory, setMailState };
+      const ctx = { cwd, setCwd, setTheme, crt, setCrt, sound, setSound, commandHistory, setMailState, setMode };
 
       if (baseCmd === "clear" || baseCmd === "cls") {
         clearHistory();
@@ -458,6 +458,12 @@ export function Terminal() {
           <div className="flex gap-4">
             <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-terminal-primary animate-pulse shadow-[0_0_8px_var(--terminal-primary)]"></span>keshav@portfolio</span>
             <span className="hidden sm:inline">pwd: <span className="text-terminal-primary">{cwd}</span></span>
+            <button 
+              onClick={() => setMode("gui")}
+              className="text-terminal-primary hover:underline ml-2 cursor-pointer font-bold"
+            >
+              [Launch GUI]
+            </button>
           </div>
           <div className="flex gap-4">
             <span className="hidden sm:inline">theme: <span className="text-terminal-primary">{theme || "hacker-green"}</span></span>
@@ -485,7 +491,7 @@ export function Terminal() {
 ╚════════════════════════════════╝`}
             </pre>
             <div className="mt-4 text-terminal-secondary">Type <span className="text-terminal-primary">help</span> to see commands. Type <span className="text-terminal-primary">ls</span> to look around.</div>
-            <div className="text-terminal-secondary">Type <span className="text-terminal-primary">cat about.md</span> to begin.</div>
+            <div className="text-terminal-secondary">Type <span className="text-terminal-primary">cat about.md</span> to begin, or type <span className="text-terminal-primary">gui</span> for graphical mode.</div>
           </div>
 
           <div className="flex flex-col gap-4">

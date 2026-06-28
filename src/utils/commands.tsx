@@ -16,6 +16,7 @@ export type TerminalContext = {
   setSound: (sound: boolean) => void;
   setMailState: (state: any) => void;
   commandHistory: string[];
+  setMode: (mode: "terminal" | "gui") => void;
 };
 
 export type CommandHandler = (args: string[], ctx: TerminalContext) => React.ReactNode;
@@ -311,6 +312,20 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
       const state = args[0] === "on" ? true : args[0] === "off" ? false : !ctx.sound;
       ctx.setSound(state);
       return <div className="text-terminal-primary">Sound {state ? "enabled" : "disabled"}.</div>;
+    },
+  },
+  gui: {
+    description: "Switch to Graphical UI Portfolio",
+    handler: (args, ctx) => {
+      ctx.setMode("gui");
+      return null;
+    },
+  },
+  desktop: {
+    description: "Alias for `gui` (Switch to GUI)",
+    handler: (args, ctx) => {
+      ctx.setMode("gui");
+      return null;
     },
   },
   // Legacy aliases mapped to filesystem

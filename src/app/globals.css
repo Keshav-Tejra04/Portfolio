@@ -9,6 +9,13 @@
   --color-terminal-secondary: var(--terminal-secondary);
   --color-terminal-body: var(--terminal-body);
   --color-terminal-error: var(--terminal-error);
+  
+  --color-gui-bg: var(--gui-bg);
+  --color-gui-card: var(--gui-card);
+  --color-gui-primary: var(--gui-primary);
+  --color-gui-secondary: var(--gui-secondary);
+  --color-gui-border: var(--gui-border);
+  --color-gui-border-hover: var(--gui-border-hover);
 }
 
 @layer base {
@@ -20,6 +27,14 @@
     --terminal-secondary: #00CC6A;
     --terminal-body: #F8F8F8;
     --terminal-error: #FF3366;
+    
+    /* GUI mode cyberpunk-red variables */
+    --gui-bg: #07070A;
+    --gui-card: rgba(14, 14, 22, 0.65);
+    --gui-primary: #FF0055;
+    --gui-secondary: #FF3366;
+    --gui-border: rgba(255, 0, 85, 0.15);
+    --gui-border-hover: rgba(255, 0, 85, 0.45);
   }
 
   .cyberpunk-blue {
@@ -53,7 +68,20 @@
 body {
   background-color: var(--terminal-bg);
   color: var(--terminal-body);
-  @apply antialiased selection:bg-terminal-primary/30 selection:text-terminal-body;
+  @apply antialiased;
+}
+
+/* Selection colors - Terminal mode (green) */
+::selection {
+  background: rgba(0, 255, 136, 0.3);
+  color: #F8F8F8;
+}
+
+/* Selection colors - GUI mode (red) */
+.gui-selection::selection,
+.gui-selection *::selection {
+  background: rgba(180, 30, 60, 0.45);
+  color: #ffccd5;
 }
 
 /* Custom Scrollbar */
@@ -143,4 +171,14 @@ body {
   mix-blend-mode: overlay;
   opacity: 0.06;
 }
+
+@keyframes scroll-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 2s ease-in-out infinite;
+}
+
 

@@ -32,17 +32,17 @@ const PROJECTS = [
   },
   {
     id: "03",
-    name: "PRODUCTION MANAGEMENT SYSTEM",
-    subtitle: "Manufacturing workflow platform",
-    description: "Manufacturing workflow platform designed to streamline production processes and improve operational visibility.",
+    name: "KESHAV OS PORTFOLIO",
+    subtitle: "Dual-Interface Web Portfolio",
+    description: "An interactive developer portfolio featuring a fully functional Linux-style terminal and a modern Cyberpunk GUI.",
     features: [
-      "Production Tracking",
-      "Order Management",
-      "BOM Management",
-      "Reporting Dashboard",
-      "Workflow Automation",
+      "Terminal Interface Engine",
+      "Mock Filesystem",
+      "Command Parsing",
+      "Modern GUI Mode",
+      "Framer Motion Transitions",
     ],
-    tech: ["React", "Django", "PostgreSQL"],
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
   },
 ];
 
