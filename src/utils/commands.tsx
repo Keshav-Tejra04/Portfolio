@@ -363,12 +363,11 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
   mail: {
     description: "Compose and send an email message",
     handler: (args, ctx) => {
-      ctx.setMailState({ to: "cto@scratchbox.app", subject: "", lines: [], mode: "subject" });
+      ctx.setMailState({ email: "", subject: "", lines: [], mode: "email" });
       return (
         <div className="border border-terminal-surface border-dashed p-4 my-2">
           <div className="text-terminal-secondary">┌── compose ──────────────────────────────</div>
-          <div><span className="text-terminal-secondary">│ to:</span> <span className="text-terminal-primary">cto@scratchbox.app</span></div>
-          <div><span className="text-terminal-secondary">│ subject:</span> <span className="text-terminal-body">(type below, then Enter)</span></div>
+          <div><span className="text-terminal-secondary">│ from:</span> <span className="text-terminal-body">(type your email below, then Enter)</span></div>
           <div className="text-terminal-secondary">└─────────────────────────────────────────</div>
         </div>
       );

@@ -134,6 +134,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [formSent, setFormSent] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Interactive Skills filter state
@@ -194,18 +195,54 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!subject || !message) return;
+    if (!email || !subject || !message) return;
+    
+    setSubmitStatus("sending");
     setFormSent(true);
-    setTimeout(() => {
-      const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=cto@scratchbox.app&su=${encodeURIComponent(
-        subject
-      )}&body=${encodeURIComponent(message)}`;
-      window.open(gmailComposeUrl, "_blank");
 
-      setFormSent(false);
-      setSubject("");
-      setMessage("");
-    }, 1000);
+    const formUrl = process.env.NEXT_PUBLIC_GOOGLE_FORM_URL;
+    const emailEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_EMAIL;
+    const subjectEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_SUBJECT;
+    const messageEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_MESSAGE;
+
+    if (formUrl && emailEntry && subjectEntry && messageEntry) {
+      const bodyParams = new URLSearchParams();
+      bodyParams.append(emailEntry, email);
+      bodyParams.append(subjectEntry, subject);
+      bodyParams.append(messageEntry, message);
+
+      fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: bodyParams.toString(),
+      })
+      .then(() => {
+        setSubmitStatus("success");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+        setTimeout(() => {
+          setSubmitStatus("idle");
+          setFormSent(false);
+        }, 3000);
+      })
+      .catch(() => {
+        setSubmitStatus("error");
+        setTimeout(() => {
+          setSubmitStatus("idle");
+          setFormSent(false);
+        }, 3000);
+      });
+    } else {
+      setSubmitStatus("error");
+      setTimeout(() => {
+        setSubmitStatus("idle");
+        setFormSent(false);
+      }, 3000);
+    }
   };
 
   const copyEmail = () => {
@@ -791,6 +828,17 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
 
             <form onSubmit={handleContactSubmit} className="flex flex-col gap-5">
 
+              <div className="flex flex-col gap-2">
+                <label className="text-xs uppercase text-gui-primary font-bold tracking-wider font-mono">Email Payload (From) :</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your-email@example.com"
+                  className="w-full bg-[#07070A] border border-gui-border/30 focus:border-gui-primary focus:shadow-[0_0_10px_rgba(255,0,85,0.15)] rounded p-3 text-sm outline-none text-white transition-all font-mono"
+                />
+              </div>
 
               <div className="flex flex-col gap-2">
                 <label className="text-xs uppercase text-gui-primary font-bold tracking-wider font-mono">Subject Payload :</label>
@@ -821,7 +869,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                 disabled={formSent}
                 className="w-full py-3.5 rounded border border-gui-primary bg-gui-primary/5 text-gui-primary hover:bg-gui-primary hover:text-white font-bold text-sm uppercase tracking-widest transition-all duration-300 shadow-[0_0_12px_rgba(255,0,85,0.15)] cursor-pointer active:scale-[0.98] font-mono"
               >
-                {formSent ? "Encrypting..." : "Send"}
+                {submitStatus === "sending" ? "Transmitting..." : submitStatus === "success" ? "Transmission Successful ✓" : submitStatus === "error" ? "Transmission Failed ✗" : "Send"}
               </button>
             </form>
           </div>

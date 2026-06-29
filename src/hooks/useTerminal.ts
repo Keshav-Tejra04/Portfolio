@@ -17,10 +17,10 @@ export function useTerminal() {
   const [sound, setSound] = useState(true);
   const [crt, setCrt] = useState(false);
   const [mailState, setMailState] = useState<{
-    to: string;
+    email: string;
     subject: string;
     lines: string[];
-    mode: "subject" | "body";
+    mode: "email" | "subject" | "body";
   } | null>(null);
 
   const executeCommand = useCallback(

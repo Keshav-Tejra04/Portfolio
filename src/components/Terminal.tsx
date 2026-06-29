@@ -346,33 +346,80 @@ export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void
       
       // Handle Mail composing mode
       if (mailState) {
-        if (mailState.mode === "subject") {
+        if (mailState.mode === "email") {
+          const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cmd);
+          if (!isEmailValid) {
+            executeCommand(val, <div className="text-terminal-error">Invalid email address. Please try again.</div>);
+            playClick(sound);
+            return;
+          }
+          setMailState({ ...mailState, email: val, mode: "subject" });
+          executeCommand(val,
+            <div>
+              <div className="text-terminal-secondary">from: <span className="text-terminal-primary">{val}</span></div>
+              <div><span className="text-terminal-secondary">│ subject:</span> <span className="text-terminal-body">(type below, then Enter)</span></div>
+            </div>
+          );
+        } else if (mailState.mode === "subject") {
+          if (!val.trim()) {
+            executeCommand(val, <div className="text-terminal-error">Subject cannot be empty. Please try again.</div>);
+            playClick(sound);
+            return;
+          }
           setMailState({ ...mailState, subject: val, mode: "body" });
           executeCommand(val, 
             <div>
               <div className="text-terminal-secondary">subject: <span className="text-terminal-primary">{val}</span></div>
-              <div className="text-terminal-secondary">type your message, and end with a single "." to send the mail.</div>
+              <div className="text-terminal-secondary">type your message, and end with a single "." to transmit the payload.</div>
             </div>
           );
         } else {
           if (cmd === ".") {
+            if (mailState.lines.length === 0 || mailState.lines.join("").trim() === "") {
+              executeCommand(".", <div className="text-terminal-error">Message body cannot be empty. Please try again.</div>);
+              playClick(sound);
+              return;
+            }
             executeCommand(".", 
               <div className="border border-terminal-surface bg-terminal-bg p-2 mt-1 mb-1">
                 <div className="text-terminal-secondary border-b border-terminal-surface pb-0.5 mb-1.5 text-xs font-bold">mail</div>
                 <div className="text-terminal-secondary font-bold mb-2">─── message ready ───</div>
-                <div><span className="text-terminal-secondary">To:</span> <span className="text-terminal-primary">{mailState.to}</span></div>
+                <div><span className="text-terminal-secondary">From:</span> <span className="text-terminal-primary">{mailState.email}</span></div>
                 <div className="mb-4"><span className="text-terminal-secondary">Subject:</span> <span className="text-terminal-primary">{mailState.subject}</span></div>
                 {mailState.lines.map((l, i) => <div key={i} className="text-terminal-body">{l}</div>)}
-                <div className="text-terminal-primary mt-4">[sending... opening your mail client...]</div>
+                <div className="text-terminal-primary mt-4">[transmitting payload to server...]</div>
               </div>
             );
-             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
-               mailState.to
-             }&su=${encodeURIComponent(mailState.subject)}&body=${encodeURIComponent(
-               mailState.lines.join("\n")
-             )}`;
-             setTimeout(() => { try { window.open(gmailUrl, "_blank"); } catch (e) { } }, 800);
-             setMailState(null);
+
+            const formUrl = process.env.NEXT_PUBLIC_GOOGLE_FORM_URL;
+            const emailEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_EMAIL;
+            const subjectEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_SUBJECT;
+            const messageEntry = process.env.NEXT_PUBLIC_GOOGLE_FORM_ENTRY_MESSAGE;
+
+            if (formUrl && emailEntry && subjectEntry && messageEntry) {
+              const bodyParams = new URLSearchParams();
+              bodyParams.append(emailEntry, mailState.email);
+              bodyParams.append(subjectEntry, mailState.subject);
+              bodyParams.append(messageEntry, mailState.lines.join("\n"));
+
+              fetch(formUrl, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: bodyParams.toString(),
+              })
+              .then(() => {
+                executeCommand("", <div className="text-terminal-primary">[transmission successful! payload sent to Keshav. He will reach back soon...]</div>);
+              })
+              .catch(() => {
+                executeCommand("", <div className="text-terminal-error">[transmission failed: check your connection]</div>);
+              });
+            } else {
+              executeCommand("", <div className="text-terminal-error">[transmission error: missing environment configuration]</div>);
+            }
+            setMailState(null);
           } else {
             setMailState({ ...mailState, lines: [...mailState.lines, val] });
             executeCommand(val, <div className="text-terminal-body pl-4">› {val}</div>);
