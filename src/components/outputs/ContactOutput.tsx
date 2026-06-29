@@ -21,7 +21,7 @@ export function ContactOutput() {
   const [copiedPhone, setCopiedPhone] = useState(false);
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("keshav.tejra04@gmail.com");
+    navigator.clipboard.writeText("cto@scratchbox.app");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -43,8 +43,8 @@ export function ContactOutput() {
           <Mail size={16} /> Email
         </div>
         <div className="flex items-center justify-between bg-terminal-surface/50 p-2 rounded">
-          <a href="mailto:keshav.tejra04@gmail.com" className="text-terminal-primary hover:underline">
-            keshav.tejra04@gmail.com
+          <a href="mailto:cto@scratchbox.app" className="text-terminal-primary hover:underline">
+            cto@scratchbox.app
           </a>
           <button 
             onClick={copyEmail}

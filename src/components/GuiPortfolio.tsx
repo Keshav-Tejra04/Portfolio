@@ -197,7 +197,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
     if (!subject || !message) return;
     setFormSent(true);
     setTimeout(() => {
-      const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=keshav.tejra04@gmail.com&su=${encodeURIComponent(
+      const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=cto@scratchbox.app&su=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(message)}`;
       window.open(gmailComposeUrl, "_blank");
@@ -209,7 +209,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText("keshav.tejra04@gmail.com");
+    navigator.clipboard.writeText("cto@scratchbox.app");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
   };
@@ -752,10 +752,10 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
             <div className="flex flex-col sm:flex-row items-center gap-3 bg-[#0E1117] border border-gui-border/30 px-6 py-3.5 rounded-full shadow-2xl mt-2 select-all group hover:border-gui-primary/60 transition-colors">
               <Mail size={16} className="text-gui-primary hidden sm:block" />
               <a
-                href="mailto:keshav.tejra04@gmail.com"
+                href="mailto:cto@scratchbox.app"
                 className="text-white hover:text-gui-primary font-bold text-sm sm:text-base tracking-wider transition-colors outline-none font-mono"
               >
-                keshav.tejra04@gmail.com
+                cto@scratchbox.app
               </a>
               <span className="text-gray-600 hidden sm:block">|</span>
               <button
