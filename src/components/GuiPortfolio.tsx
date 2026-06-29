@@ -439,7 +439,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                 {`      `}<span className="text-[#00FF88]">"Next.js"</span>{`\n`}
                 {`    ]\n`}
                 {`  },\n`}
-                {`  `}<span className="text-gui-secondary">"focus"</span>{`: `}<span className="text-[#00FF88]">"High-Performance Backends & AI Agents"</span>{`,\n`}
+                {`  `}<span className="text-gui-secondary">"focus"</span>{`: `}<span className="text-[#00FF88]">"Learning and Building"</span>{`,\n`}
                 
                 {`  `}<span className="text-gui-secondary">"based_in"</span>{`: `}<span className="text-[#00FF88]">"Indore, IN"</span>{`,\n`}
                 {`  `}<span className="text-gui-secondary">"status"</span>{`: `}<span className="text-[#00FF88]">"overclocked"</span>{`,\n`}

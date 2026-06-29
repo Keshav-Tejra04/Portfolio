@@ -14,8 +14,8 @@ export function useTerminal() {
 
   // Advanced States
   const [cwd, setCwd] = useState("~");
-  const [sound, setSound] = useState(false);
-  const [crt, setCrt] = useState(true);
+  const [sound, setSound] = useState(true);
+  const [crt, setCrt] = useState(false);
   const [mailState, setMailState] = useState<{
     to: string;
     subject: string;

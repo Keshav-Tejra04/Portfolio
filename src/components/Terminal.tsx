@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTerminal } from "@/hooks/useTerminal";
 import { BootSequence } from "./BootSequence";
 import { COMMANDS, FILE_SYSTEM } from "@/utils/commands";
@@ -44,6 +44,13 @@ function getGhostText(input: string, cwd: string): string {
       return match ? match.slice(searchPrefix.length) : "";
     }
   }
+  if (parts.length === 2 && cmd === "theme") {
+    const themeArg = parts[1].toLowerCase();
+    const themesList = ["gui-inspired", "hacker-green", "cyberpunk-blue", "github-dark", "vercel-black"];
+    const match = themesList.find(t => t.startsWith(themeArg));
+    return match ? match.slice(themeArg.length) : "";
+  }
+
   return "";
 }
 
@@ -344,7 +351,7 @@ export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void
           executeCommand(val, 
             <div>
               <div className="text-terminal-secondary">subject: <span className="text-terminal-primary">{val}</span></div>
-              <div className="text-terminal-secondary">type your message. end with a single "." on its own line.</div>
+              <div className="text-terminal-secondary">type your message, and end with a single "." to send the mail.</div>
             </div>
           );
         } else {
@@ -356,12 +363,16 @@ export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void
                 <div><span className="text-terminal-secondary">To:</span> <span className="text-terminal-primary">{mailState.to}</span></div>
                 <div className="mb-4"><span className="text-terminal-secondary">Subject:</span> <span className="text-terminal-primary">{mailState.subject}</span></div>
                 {mailState.lines.map((l, i) => <div key={i} className="text-terminal-body">{l}</div>)}
-                <div className="text-terminal-primary mt-4">[message sent. opening your mail client...]</div>
+                <div className="text-terminal-primary mt-4">[sending... opening your mail client...]</div>
               </div>
             );
-            const mailto = `mailto:${mailState.to}?subject=${encodeURIComponent(mailState.subject)}&body=${encodeURIComponent(mailState.lines.join("\n"))}`;
-            setTimeout(() => { try { window.open(mailto, "_blank"); } catch (e) { } }, 800);
-            setMailState(null);
+             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${
+               mailState.to
+             }&su=${encodeURIComponent(mailState.subject)}&body=${encodeURIComponent(
+               mailState.lines.join("\n")
+             )}`;
+             setTimeout(() => { try { window.open(gmailUrl, "_blank"); } catch (e) { } }, 800);
+             setMailState(null);
           } else {
             setMailState({ ...mailState, lines: [...mailState.lines, val] });
             executeCommand(val, <div className="text-terminal-body pl-4">› {val}</div>);
@@ -427,10 +438,6 @@ export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void
     }
   };
 
-  if (isBooting) {
-    return <BootSequence onComplete={() => setIsBooting(false)} />;
-  }
-
   let promptPrefix = "";
   if (mailState) {
     promptPrefix = "mail(" + mailState.mode + ")▸";
@@ -439,105 +446,147 @@ export function Terminal({ setMode }: { setMode: (m: "terminal" | "gui") => void
   }
 
   return (
-    <>
-      {isMatrixMode && <MatrixRain />}
-      {crt && (
-        <div className="crt-overlay">
-          <div className="scanlines"></div>
-          <div className="vignette"></div>
-          <div className="flicker"></div>
-          <div className="film-grain"></div>
-        </div>
-      )}
-      <div
-        className="h-full w-full bg-terminal-bg text-terminal-body font-mono text-sm sm:text-base flex flex-col cursor-text relative z-10"
-        onClick={handleTerminalClick}
-      >
-        {/* Status Bar */}
-        <div className="flex justify-between items-center px-4 py-1 bg-terminal-surface border-b border-terminal-surface text-xs text-terminal-secondary select-none flex-shrink-0">
-          <div className="flex gap-4">
-            <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-terminal-primary animate-pulse shadow-[0_0_8px_var(--terminal-primary)]"></span>keshav@portfolio</span>
-            <span className="hidden sm:inline">pwd: <span className="text-terminal-primary">{cwd}</span></span>
-            <button 
-              onClick={() => setMode("gui")}
-              className="text-terminal-primary hover:underline ml-2 cursor-pointer font-bold"
-            >
-              [Launch GUI]
-            </button>
-          </div>
-          <div className="flex gap-4">
-            <span className="hidden sm:inline">theme: <span className="text-terminal-primary">{theme || "hacker-green"}</span></span>
-            <span className="hidden sm:inline">crt: <span className="text-terminal-primary">{crt ? "on" : "off"}</span></span>
-            <span className="hidden sm:inline">sound: <span className="text-terminal-primary">{sound ? "on" : "off"}</span></span>
-            <span className="text-terminal-primary">{time}</span>
-          </div>
-        </div>
+    <AnimatePresence mode="wait">
+      {isBooting ? (
+        <motion.div
+          key="boot"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="h-full w-full bg-[#07070A]"
+        >
+          <BootSequence onComplete={() => setIsBooting(false)} />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="terminal"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="h-full w-full bg-[#07070A] text-gray-200 font-mono relative overflow-hidden flex items-center justify-center p-4 md:p-8"
+        >
+          {/* Background Mesh Overlays */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,0,85,0.012)_1px,transparent_1px),linear-gradient(90deg,rgba(255,0,85,0.012)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-0" />
+          <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-gui-primary/5 rounded-full blur-[140px] pointer-events-none z-0" />
+          <div className="absolute bottom-24 left-10 w-[450px] h-[450px] bg-gui-secondary/5 rounded-full blur-[140px] pointer-events-none z-0" />
 
-        {/* History / Output View */}
-        <div className="flex-1 overflow-y-auto px-4 sm:px-8 pt-4 pb-2" ref={historyRef}>
-          <div className="mb-8 select-none">
-            <pre className="text-terminal-primary hidden sm:block">
-              {`╔════════════════════════════════════════════╗
-║              KESHAV OS v2.0               ║
-║ Full-Stack Developer • AI Engineer        ║
-║ Mobile App Developer                      ║
-╚════════════════════════════════════════════╝`}
-            </pre>
-            <pre className="text-terminal-primary sm:hidden text-xs">
-              {`╔════════════════════════════════╗
-║        KESHAV OS v2.0         ║
-║ Full-Stack Developer          ║
-║ AI Engineer • Mobile Dev      ║
-╚════════════════════════════════╝`}
-            </pre>
-            <div className="mt-4 text-terminal-secondary">Type <span className="text-terminal-primary">help</span> to see commands. Type <span className="text-terminal-primary">ls</span> to look around.</div>
-            <div className="text-terminal-secondary">Type <span className="text-terminal-primary">cat about.md</span> to begin, or type <span className="text-terminal-primary">gui</span> for graphical mode.</div>
-          </div>
+          {isMatrixMode && <MatrixRain />}
+          {crt && (
+            <div className="crt-overlay">
+              <div className="scanlines"></div>
+              <div className="vignette"></div>
+              <div className="flicker"></div>
+              <div className="film-grain"></div>
+            </div>
+          )}
 
-          <div className="flex flex-col gap-4">
-            {history.map((entry) => (
-              <div key={entry.id}>
-                <div className="flex gap-2 text-terminal-secondary">
-                  <span className={entry.command.startsWith("mail") ? "text-terminal-error" : "text-terminal-primary"}>
-                    {entry.command.startsWith("mail") ? "mail▸" : `keshav@portfolio:${cwd}$`}
-                  </span>
-                  <span className="text-terminal-body">{entry.command}</span>
-                </div>
-                {entry.output && (
-                  <TypewriterHTML sound={sound} entryId={entry.id}>
-                    {entry.output}
-                  </TypewriterHTML>
-                )}
+          {/* Terminal Glass Container */}
+          <div 
+            className="w-[98%] h-[97%] md:w-[98%] md:h-[96%] max-w-[1720px] rounded-lg border border-gui-border/30 bg-[#0E1117]/85 backdrop-blur-md shadow-[0_0_30px_rgba(255,0,85,0.15)] flex flex-col overflow-hidden relative z-10"
+            onClick={handleTerminalClick}
+          >
+            {/* Window Top Header Bar */}
+            <div className="flex items-center justify-between px-4 py-3 bg-[#161B22]/70 border-b border-gui-border/20 select-none flex-shrink-0">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
               </div>
-            ))}
-          </div>
-        </div>
+              <span className="text-xs text-terminal-secondary font-bold uppercase tracking-wider">keshav@portfolio: {cwd}</span>
+              <button 
+                onClick={() => setMode("gui")}
+                className="text-xs bg-gui-primary/10 border border-gui-border/40 text-gui-primary hover:bg-gui-primary hover:text-white px-3 py-1 rounded font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-[0_0_10px_rgba(255,0,85,0.1)]"
+              >
+                Launch GUI &rarr;
+              </button>
+            </div>
 
-        {/* Input Prompt (Pinned to bottom) */}
-        <div className="px-4 sm:px-8 py-4 border-t border-terminal-surface bg-terminal-bg flex-shrink-0">
-          <div className="flex gap-2 text-terminal-secondary">
-            <span className={mailState ? "text-terminal-error" : "text-terminal-primary"}>{promptPrefix}</span>
-            <div className="relative flex-1 flex">
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="w-full bg-transparent outline-none border-none text-terminal-body caret-transparent absolute opacity-0"
-                autoFocus
-                spellCheck={false}
-                autoComplete="off"
-              />
-              <span className="whitespace-pre text-terminal-body break-all relative">
-                {input}
-                {ghostText && <span className="text-terminal-secondary opacity-50 absolute pointer-events-none">{ghostText}</span>}
-                <span className="inline-block w-2.5 h-4 bg-terminal-primary ml-0.5 animate-blink align-middle" />
-              </span>
+            {/* Status Info Bar */}
+            <div className="flex justify-between items-center px-4 py-1.5 bg-[#0C0F16] border-b border-gui-border/10 text-[10px] text-terminal-secondary select-none flex-shrink-0">
+              <div className="flex gap-4">
+                <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-terminal-primary animate-pulse shadow-[0_0_8px_var(--terminal-primary)]"></span>keshav@portfolio</span>
+                <span className="hidden sm:inline">pwd: <span className="text-terminal-primary">{cwd}</span></span>
+              </div>
+              <div className="flex gap-4">
+                <span className="hidden sm:inline">theme: <span className="text-terminal-primary">{theme || "hacker-green"}</span></span>
+                <span className="hidden sm:inline">crt: <span className="text-terminal-primary">{crt ? "on" : "off"}</span></span>
+                <span className="hidden sm:inline">sound: <span className="text-terminal-primary">{sound ? "on" : "off"}</span></span>
+                <span className="text-terminal-primary">{time}</span>
+              </div>
+            </div>
+
+            {/* History / Output View */}
+            <div className="flex-1 overflow-y-auto px-4 sm:px-8 pt-4 pb-2 bg-[#07070A]/95" ref={historyRef}>
+              <div className="mb-8 select-none flex flex-col gap-6">
+                <div className="border border-gui-border/30 bg-[#0E1117]/60 rounded-lg p-5 max-w-xl flex flex-col gap-3 font-mono">
+                  <div className="flex items-center justify-between border-b border-gui-border/20 pb-2.5">
+                    <span className="text-gui-primary font-bold tracking-wider text-sm sm:text-base">KESHAV TEJRA</span>
+                    <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest animate-pulse">STATUS: ACTIVE</span>
+                  </div>
+                  <div className="grid grid-cols-[100px_1fr] gap-x-4 gap-y-2 text-xs sm:text-sm">
+                    <span className="text-gui-secondary font-bold">ROLE:</span>
+                    <span className="text-white">Full-Stack & Mobile Developer</span>
+
+                    <span className="text-gui-secondary font-bold">FOCUS:</span>
+                    <span className="text-white text-terminal-primary font-bold">Learning and Building</span>
+
+                    <span className="text-gui-secondary font-bold">STATUS:</span>
+                    <span className="text-white text-terminal-primary">overclocked // cooking</span>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col gap-1">
+                  <div className="text-terminal-secondary">Type <span className="text-terminal-primary">help</span> to see commands. Type <span className="text-terminal-primary">ls</span> to look around.</div>
+                  <div className="text-terminal-secondary">Type <span className="text-terminal-primary">cat about.md</span> to begin, or click <span className="text-terminal-primary">Launch GUI</span> above.</div>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {history.map((entry) => (
+                  <div key={entry.id}>
+                    <div className="flex gap-2 text-terminal-secondary text-sm">
+                      <span className={entry.command.startsWith("mail") ? "text-terminal-error" : "text-terminal-primary"}>
+                        {entry.command.startsWith("mail") ? "mail▸" : `keshav@portfolio:${cwd}$`}
+                      </span>
+                      <span className="text-terminal-body">{entry.command}</span>
+                    </div>
+                    {entry.output && (
+                      <TypewriterHTML sound={sound} entryId={entry.id}>
+                        {entry.output}
+                      </TypewriterHTML>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Input Prompt (Pinned to bottom) */}
+            <div className="px-4 sm:px-8 py-3.5 border-t border-gui-border/20 bg-[#0E1117]/90 flex-shrink-0">
+              <div className="flex gap-2 text-terminal-secondary text-sm">
+                <span className={mailState ? "text-terminal-error" : "text-terminal-primary"}>{promptPrefix}</span>
+                <div className="relative flex-1 flex">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="w-full bg-transparent outline-none border-none text-terminal-body caret-transparent absolute opacity-0"
+                    autoFocus
+                    spellCheck={false}
+                    autoComplete="off"
+                  />
+                  <span className="whitespace-pre text-terminal-body break-all relative">
+                    {input}
+                    {ghostText && <span className="text-terminal-secondary opacity-50 absolute pointer-events-none">{ghostText}</span>}
+                    <span className="inline-block w-2 h-3.5 bg-terminal-primary ml-0.5 animate-blink align-middle" />
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

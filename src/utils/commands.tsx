@@ -55,31 +55,30 @@ export const FILE_SYSTEM: Record<string, FSDirectory> = {
       "all_projects.md": { type: "file", component: <ProjectsOutput /> },
       "devflow.md": { type: "file", component: <ProjectsOutput projectId="01" /> },
       "skill_evaluator.md": { type: "file", component: <ProjectsOutput projectId="02" /> },
-      "scratchbox.md": { 
+      "portfolio.md": { 
         type: "file", 
         component: (
           <div className="border border-terminal-surface p-4 bg-terminal-bg">
             <div className="flex items-end gap-4 border-b border-terminal-surface pb-2 mb-4">
-              <span className="text-2xl font-bold text-terminal-primary">STARTUP</span>
-              <span className="text-lg text-terminal-secondary">SCRATCHBOX</span>
+              <span className="text-2xl font-bold text-terminal-primary">PROJECT</span>
+              <span className="text-lg text-terminal-secondary">KESHAV OS PORTFOLIO</span>
             </div>
-            <p className="text-terminal-body font-bold mb-2">Co-Founder & Full-Stack Developer</p>
-            <p className="text-terminal-secondary mb-4">A live coding LMS serving 2000+ active users, independently architected and scaled by Keshav.</p>
+            <p className="text-terminal-body font-bold mb-2">Dual-Interface Web Portfolio</p>
+            <p className="text-terminal-secondary mb-4">An interactive developer portfolio featuring a fully functional Linux-style terminal and a modern Cyberpunk GUI.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <span className="text-terminal-primary border-b border-terminal-primary/30 inline-block mb-2">Highlights:</span>
+                <span className="text-terminal-primary border-b border-terminal-primary/30 inline-block mb-2">Features:</span>
                 <ul className="list-disc list-inside text-terminal-secondary space-y-1">
-                  <li>Built and scaled platform serving 2000+ active users</li>
-                  <li>Architected front-to-back system architecture</li>
-                  <li>Go backend services & React frontend applications</li>
-                  <li>JWT authentication, RBAC, and analytics dashboard</li>
-                  <li>Sub-150ms API response times</li>
+                  <li>Terminal Interface Engine & Command Parsing</li>
+                  <li>Mock Virtual Filesystem with Autocomplete</li>
+                  <li>Modern Cyberpunk GUI Mode</li>
+                  <li>Fluid Framer Motion Page Transitions</li>
                 </ul>
               </div>
               <div>
                 <span className="text-terminal-primary border-b border-terminal-primary/30 inline-block mb-2">Tech Stack:</span>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {["Go", "React", "PostgreSQL", "JWT", "REST APIs"].map((tech, j) => (
+                  {["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"].map((tech, j) => (
                     <span key={j} className="px-2 py-1 bg-terminal-surface text-terminal-primary text-xs rounded">{tech}</span>
                   ))}
                 </div>
@@ -116,35 +115,125 @@ const resolvePath = (cwd: string, target: string) => {
 
 export const COMMANDS: Record<string, { description: string; handler: CommandHandler }> = {
   help: {
-    description: "List all available commands (man page style)",
+    description: "List all available commands",
     handler: () => (
-      <div className="border border-terminal-surface p-4 bg-terminal-surface/30">
-        <h2 className="text-terminal-primary font-bold mb-2">NAME</h2>
-        <div className="pl-4 text-terminal-body mb-4">keshav-os - interactive terminal portfolio</div>
-        
-        <h2 className="text-terminal-primary font-bold mb-2">SYNOPSIS</h2>
-        <div className="pl-4 text-terminal-body mb-4">&lt;command&gt; [arguments]</div>
+      <div className="flex flex-col gap-4 max-w-2xl font-mono text-sm mt-2 mb-2">
+        <div>
+          <span className="text-gui-primary font-bold">NAME</span>
+          <p className="pl-4 text-terminal-body mt-1">keshav-os - an interactive developer portfolio, in terminal form</p>
+        </div>
 
-        <h2 className="text-terminal-primary font-bold mb-2">COMMANDS</h2>
-        <div className="pl-4 grid grid-cols-[100px_1fr] gap-y-1">
-          {Object.entries(COMMANDS).map(([key, val]) => (
-            <React.Fragment key={key}>
-              <span className="text-terminal-secondary">{key}</span>
-              <span className="text-terminal-body">{val.description}</span>
-            </React.Fragment>
-          ))}
-          <span className="text-terminal-secondary">clear</span>
-          <span className="text-terminal-body">Clear terminal history</span>
+        <div>
+          <span className="text-gui-primary font-bold">SYNOPSIS</span>
+          <p className="pl-4 text-terminal-body mt-1">&lt;command&gt; [arguments]</p>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">DESCRIPTION</span>
+          <p className="pl-4 text-terminal-body mt-1">
+            You are reading my portfolio by typing commands at a prompt. 
+            You can also switch to the graphical layout at any time.
+          </p>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">COMMANDS</span>
+          <div className="pl-4 grid grid-cols-[130px_1fr] gap-y-1 mt-1 text-terminal-body">
+            <span className="text-terminal-primary font-bold">help</span>
+            <span>Show this help message</span>
+
+            <span className="text-terminal-primary font-bold">ls [path]</span>
+            <span>List directory contents</span>
+
+            <span className="text-terminal-primary font-bold">cat &lt;file&gt;</span>
+            <span>Print a file's contents</span>
+
+            <span className="text-terminal-primary font-bold">cd &lt;dir&gt;</span>
+            <span>Change directory</span>
+
+            <span className="text-terminal-primary font-bold">pwd</span>
+            <span>Print working directory</span>
+
+            <span className="text-terminal-primary font-bold">whoami</span>
+            <span>Display author profile information</span>
+
+            <span className="text-terminal-primary font-bold">mail</span>
+            <span>Compose and send an email message</span>
+
+            <span className="text-terminal-primary font-bold">tree</span>
+            <span>Show the virtual filesystem tree</span>
+
+            <span className="text-terminal-primary font-bold">history</span>
+            <span>Show command history list</span>
+
+            <span className="text-terminal-primary font-bold">man &lt;command&gt;</span>
+            <span>Display manual details for a command</span>
+
+            <span className="text-terminal-primary font-bold">date</span>
+            <span>Display current date and time</span>
+
+            <span className="text-terminal-primary font-bold">echo &lt;text&gt;</span>
+            <span>Print text back to screen</span>
+
+            <span className="text-terminal-primary font-bold">clear</span>
+            <span>Clear screen history</span>
+          </div>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">SETTINGS</span>
+          <div className="pl-4 grid grid-cols-[130px_1fr] gap-y-1 mt-1 text-terminal-body">
+            <span className="text-terminal-primary font-bold">theme [name]</span>
+            <span>gui-inspired | hacker-green | cyberpunk-blue | github-dark | vercel-black</span>
+
+            <span className="text-terminal-primary font-bold">crt [on|off]</span>
+            <span>Toggle CRT scanlines and screen effects</span>
+
+            <span className="text-terminal-primary font-bold">sound [on|off]</span>
+            <span>Toggle keypress feedback sound effects</span>
+          </div>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">KEYBOARD</span>
+          <div className="pl-4 grid grid-cols-[130px_1fr] gap-y-1 mt-1 text-terminal-body">
+            <span className="text-terminal-secondary font-bold">Tab / &rarr;</span>
+            <span>Autocomplete current word / accept ghost-text</span>
+
+            <span className="text-terminal-secondary font-bold">Up / Down</span>
+            <span>Navigate command history list</span>
+
+            <span className="text-terminal-secondary font-bold">Ctrl+C</span>
+            <span>Cancel current input line</span>
+          </div>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">TIPS</span>
+          <ul className="list-disc list-inside pl-4 mt-1 text-terminal-body space-y-0.5">
+            <li>Files in <span className="text-terminal-primary font-bold">projects/</span> are markdown. Try '<span className="text-terminal-primary font-bold">cat projects/portfolio.md</span>'.</li>
+            <li>Directories are virtual. Try '<span className="text-terminal-primary font-bold">cd projects</span>' then '<span className="text-terminal-primary font-bold">ls</span>'.</li>
+          </ul>
+        </div>
+
+        <div>
+          <span className="text-gui-primary font-bold">REPORTING BUGS</span>
+          <p className="pl-4 text-terminal-body mt-1">There are no bugs. There are only features you have not found yet.</p>
         </div>
       </div>
     ),
   },
   whoami: {
-    description: "Display current user profile",
+    description: "Display author profile information",
     handler: () => (
-      <div className="flex flex-col gap-2">
-        <div>Name:<br /><span className="text-terminal-primary">Keshav Tejra</span></div>
-        <div>Role:<br /><span className="text-terminal-primary">Full-Stack Developer<br />AI Engineer<br />Mobile App Developer</span></div>
+      <div className="flex flex-col gap-4 max-w-xl font-mono text-sm leading-relaxed mt-2 mb-2">
+        <div className="text-terminal-primary border-b border-gui-border/20 pb-1.5 font-bold uppercase tracking-wider">Profile: Keshav Tejra</div>
+        <div className="text-terminal-body">
+          I'm a full-stack developer who'd rather ship a working product than polish a deck about one. Most of my time is spent building scalable backends with Go/Python and fluid frontends using React and Next.js.
+        </div>
+        <div className="text-terminal-secondary text-xs">
+          <span className="text-terminal-primary font-bold">CURRENTLY:</span> Scaling <span className="text-white font-bold">Scratchbox</span> to its full potential, ignoring my phone's screen time alerts, and wondering how the build compiled on the first try.
+        </div>
       </div>
     ),
   },
@@ -226,7 +315,7 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
 ├── projects/
 │   ├── all_projects.md
 │   ├── devflow.md
-│   ├── scratchbox.md
+│   ├── portfolio.md
 │   └── skill_evaluator.md
 ├── skills/
 │   ├── core_skills.md
@@ -272,14 +361,13 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
     },
   },
   mail: {
-    description: "Compose a message to me",
+    description: "Compose and send an email message",
     handler: (args, ctx) => {
-      if (!args[0]) return <div className="text-terminal-error">usage: mail &lt;address&gt;<br/>example: mail keshav.tejra04@gmail.com</div>;
-      ctx.setMailState({ to: args[0], subject: "", lines: [], mode: "subject" });
+      ctx.setMailState({ to: "keshav.tejra04@gmail.com", subject: "", lines: [], mode: "subject" });
       return (
         <div className="border border-terminal-surface border-dashed p-4 my-2">
           <div className="text-terminal-secondary">┌── compose ──────────────────────────────</div>
-          <div><span className="text-terminal-secondary">│ to:</span> <span className="text-terminal-primary">{args[0]}</span></div>
+          <div><span className="text-terminal-secondary">│ to:</span> <span className="text-terminal-primary">keshav.tejra04@gmail.com</span></div>
           <div><span className="text-terminal-secondary">│ subject:</span> <span className="text-terminal-body">(type below, then Enter)</span></div>
           <div className="text-terminal-secondary">└─────────────────────────────────────────</div>
         </div>
@@ -289,8 +377,8 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
   theme: {
     description: "Switch terminal theme",
     handler: (args, ctx) => {
-      if (!args[0]) return <div className="text-terminal-secondary">Usage: theme [hacker-green | cyberpunk-blue | github-dark | vercel-black]</div>;
-      const validThemes = ["hacker-green", "cyberpunk-blue", "github-dark", "vercel-black"];
+      if (!args[0]) return <div className="text-terminal-secondary">Usage: theme [gui-inspired | hacker-green | cyberpunk-blue | github-dark | vercel-black]</div>;
+      const validThemes = ["gui-inspired", "hacker-green", "cyberpunk-blue", "github-dark", "vercel-black"];
       if (validThemes.includes(args[0])) {
         ctx.setTheme(args[0]);
         return <div className="text-terminal-primary">Theme switched to {args[0]}.</div>;
@@ -321,20 +409,12 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
       return null;
     },
   },
-  desktop: {
-    description: "Alias for `gui` (Switch to GUI)",
-    handler: (args, ctx) => {
-      ctx.setMode("gui");
-      return null;
-    },
-  },
-  // Legacy aliases mapped to filesystem
-  about: { description: "Alias for `cat ~/about.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/about.md"], ctx) },
-  experience: { description: "Alias for `cat ~/experience.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/experience.md"], ctx) },
-  projects: { description: "Alias for `cat ~/projects/all_projects.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/projects/all_projects.md"], ctx) },
-  skills: { description: "Alias for `cat ~/skills/core_skills.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/core_skills.md"], ctx) },
-  mobile: { description: "Alias for `cat ~/skills/mobile.md`", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/mobile.md"], ctx) },
-  contact: { description: "Alias for `cat ~/contact.txt`", handler: (args, ctx) => COMMANDS.cat.handler(["~/contact.txt"], ctx) },
+  about: { description: "View my background bio", handler: (args, ctx) => COMMANDS.cat.handler(["~/about.md"], ctx) },
+  experience: { description: "View my professional timeline", handler: (args, ctx) => COMMANDS.cat.handler(["~/experience.md"], ctx) },
+  projects: { description: "View featured projects", handler: (args, ctx) => COMMANDS.cat.handler(["~/projects/all_projects.md"], ctx) },
+  skills: { description: "View technical skills list", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/core_skills.md"], ctx) },
+  mobile: { description: "View mobile app technologies", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/mobile.md"], ctx) },
+  contact: { description: "View my contact channels", handler: (args, ctx) => COMMANDS.cat.handler(["~/contact.txt"], ctx) },
   github: {
     description: "Open my GitHub profile",
     handler: () => {
@@ -349,13 +429,26 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
       return <div className="text-terminal-secondary">Opening LinkedIn profile...</div>;
     },
   },
+  date: {
+    description: "Display current date and time",
+    handler: () => <div className="text-terminal-body">{new Date().toString()}</div>,
+  },
+  echo: {
+    description: "Print text back to screen",
+    handler: (args) => <div className="text-terminal-body">{args.join(" ")}</div>,
+  },
   sudo: {
-    description: "Execute a command as superuser",
+    description: "Execute commands as superuser (try: sudo hire-keshav)",
     handler: (args) => {
       if (args[0] === "hire-keshav") {
-        return <div className="text-terminal-primary">Excellent choice.<br />Let's build something amazing together.</div>;
+        return <div className="text-terminal-primary font-bold">Excellent choice.<br />Let's build something amazing together.</div>;
       }
-      return <div className="text-terminal-error">keshav is not in the sudoers file. This incident will be reported.</div>;
+      return (
+        <div className="text-terminal-error">
+          Usage: sudo &lt;command&gt;<br />
+          Try running: <span className="text-terminal-primary font-bold">sudo hire-keshav</span>
+        </div>
+      );
     }
   }
 };

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const BOOT_LINES = [
-  "Initializing KeshavOS...",
+  "Initializing Keshav's Profile...",
   "Loading Developer Profile...",
   "Loading Projects Database...",
   "Loading Mobile Systems...",

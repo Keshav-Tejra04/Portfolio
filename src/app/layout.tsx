@@ -35,8 +35,8 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="hacker-green"
-          themes={["hacker-green", "cyberpunk-blue", "github-dark", "vercel-black"]}
+          defaultTheme="gui-inspired"
+          themes={["gui-inspired", "hacker-green", "cyberpunk-blue", "github-dark", "vercel-black"]}
         >
           {children}
         </ThemeProvider>

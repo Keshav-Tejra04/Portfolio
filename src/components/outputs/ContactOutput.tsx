@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Copy, ExternalLink, Check } from "lucide-react";
+import { Mail, Copy, ExternalLink, Check, Phone } from "lucide-react";
 import { useState } from "react";
 
 const GithubIcon = () => (
@@ -18,11 +18,18 @@ const LinkedinIcon = () => (
 
 export function ContactOutput() {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("keshav.tejra04@gmail.com");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const copyPhone = () => {
+    navigator.clipboard.writeText("+917828251527");
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   return (
@@ -44,6 +51,23 @@ export function ContactOutput() {
             className="text-terminal-secondary hover:text-terminal-primary transition-colors flex items-center gap-1 text-sm"
           >
             {copiedEmail ? <><Check size={14} /> Copied</> : <><Copy size={14} /> Copy</>}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 p-4 border border-terminal-surface">
+        <div className="flex items-center gap-2 text-terminal-secondary mb-2">
+          <Phone size={16} /> Phone
+        </div>
+        <div className="flex items-center justify-between bg-terminal-surface/50 p-2 rounded">
+          <a href="tel:+917828251527" className="text-terminal-primary hover:underline">
+            +91 78282 51527
+          </a>
+          <button 
+            onClick={copyPhone}
+            className="text-terminal-secondary hover:text-terminal-primary transition-colors flex items-center gap-1 text-sm"
+          >
+            {copiedPhone ? <><Check size={14} /> Copied</> : <><Copy size={14} /> Copy</>}
           </button>
         </div>
       </div>
