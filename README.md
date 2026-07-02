@@ -1,7 +1,5 @@
-# ╔════════════════════════════════════════════╗
-# ║              KESHAV TEJRA              ║
-# ║  Full-Stack Dev • AI Eng • Mobile Dev     ║
-# ╚════════════════════════════════════════════╝
+KESHAV TEJRA
+Full-Stack Dev • AI Eng • Mobile Dev
 
 An interactive, cyberpunk, retro-terminal portfolio website built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS v4**. Experience a fully-simulated Command Line Interface (CLI) operating system complete with a boot sequence, terminal commands, an AI mode, a matrix rain screen, and multiple themes.
 
