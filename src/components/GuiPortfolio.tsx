@@ -47,11 +47,11 @@ const PROJECTS: Project[] = [
     date: "Mar 2026",
     desc: "An intelligent pull request review agent that compiles and reviews codebase changes, generating detailed JSON audit reports to reduce review hours.",
     highlights: [
-      "LLM-powered review pipeline using Python and Gemini API.",
-      "Structured JSON audit responses highlighting code smell & fixes.",
-      "Automated CI/CD workflows triggered by GitHub Action webhooks."
+      "Built an end-to-end LLM-powered PR review pipeline using Python and Gemini API with structured JSON outputs, issue extraction, and automated fix suggestions from raw GitHub diffs.",
+      "Engineered preprocessing and batch-analysis workflows using LangChain to detect recurring code patterns, prioritize files, and generate dashboard-based PR insights.",
+      "Containerized the system with Docker Compose and implemented secure HMAC-SHA256 webhook verification with automated CI/CD pipelines using GitHub Actions."
     ],
-    tech: ["Python", "LangChain", "Go", "React", "Docker", "Gemini API"],
+    tech: ["Python", "LangChain", "Go", "TypeScript", "React", "Redis", "PostgreSQL", "Docker", "Gemini API"],
     code: `{\n  "name": "DevFlow",\n  "engine": "Gemini-1.5-Pro",\n  "reviews_completed": 412,\n  "github_integration": "Active"\n}`,
     repoUrl: "https://github.com/Keshav-Tejra04"
   },

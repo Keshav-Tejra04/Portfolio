@@ -7,14 +7,11 @@ const PROJECTS = [
     subtitle: "AI-Powered GitHub PR Review Agent",
     description: "An end-to-end intelligent code review platform that automates pull request analysis and generates actionable insights.",
     features: [
-      "Automated PR Reviews",
-      "Structured JSON Outputs",
-      "LangChain Pipelines",
-      "Dockerized Deployment",
-      "GitHub Integration",
-      "Engineering Dashboards",
+      "Built an end-to-end LLM-powered PR review pipeline using Python and Gemini API with structured JSON outputs, issue extraction, and automated fix suggestions from raw GitHub diffs.",
+      "Engineered preprocessing and batch-analysis workflows using LangChain to detect recurring code patterns, prioritize files, and generate dashboard-based PR insights.",
+      "Containerized the system with Docker Compose and implemented secure HMAC-SHA256 webhook verification with automated CI/CD pipelines using GitHub Actions."
     ],
-    tech: ["Python", "LangChain", "Go", "React", "Redis", "PostgreSQL", "Docker", "Gemini API"],
+    tech: ["Python", "LangChain", "Go", "TypeScript", "React", "Redis", "PostgreSQL", "Docker", "Gemini API"],
   },
   {
     id: "02",
