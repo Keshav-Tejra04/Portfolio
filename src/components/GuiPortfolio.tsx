@@ -170,7 +170,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
     target: projectsScrollRef,
     container: scrollContainerRef
   });
-  const projectsX = useTransform(projectsScrollY, [0, 1], ["0%", "-45%"]);
+  const projectsX = useTransform(projectsScrollY, [0, 1], ["0%", "-70%"]);
 
   // Typewriter effect for Hero
   const roles = ["Co-Founder", "Full-Stack Developer", "Gen AI Engineer", "System Architect"];
@@ -561,7 +561,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
           </div>
 
           {/* Sticky container for horizontal scroll */}
-          <div ref={projectsScrollRef} className="h-[300vh] w-full relative">
+          <div ref={projectsScrollRef} className="h-[400vh] w-full relative">
             <div className="sticky top-[100px] flex flex-col gap-10 overflow-hidden pt-4 pb-20">
               <div className="flex justify-between items-end">
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
