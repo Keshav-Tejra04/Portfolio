@@ -18,6 +18,21 @@ const PROJECTS = [
   },
   {
     id: "02",
+    name: "IR-1 CENTRIFUGE SIMULATION",
+    subtitle: "Stuxnet Demo & Physics Engine",
+    description: "An interactive, high-fidelity simulation of an IR-1 gas centrifuge cascade designed to demonstrate the mechanics of physical-cyber attacks.",
+    features: [
+      "Decoupled 3-Tier Architecture",
+      "Discrete-Tick Physics Engine",
+      "Stateless PLC Middleware Relay",
+      "3D Cascade View (Three.js/ECS)",
+      "HMI Dashboard with Telemetry",
+      "Stuxnet-style MITM Vulnerability"
+    ],
+    tech: ["Rust", "Python", "React", "Three.js", "WebSocket", "JSONL"],
+  },
+  {
+    id: "03",
     name: "SKILL EVALUATOR",
     subtitle: "AI Resume Analyzer & Career Coach",
     description: "Cross-platform Web and Android application that analyzes resumes and generates personalized career roadmaps.",
@@ -31,7 +46,7 @@ const PROJECTS = [
     tech: ["React", "React Native", "FastAPI", "Gemini API", "PostgreSQL"],
   },
   {
-    id: "03",
+    id: "04",
     name: "KESHAV OS PORTFOLIO",
     subtitle: "Dual-Interface Web Portfolio",
     description: "An interactive developer portfolio featuring a fully functional Linux-style terminal and a modern Cyberpunk GUI.",

@@ -54,7 +54,8 @@ export const FILE_SYSTEM: Record<string, FSDirectory> = {
     children: {
       "all_projects.md": { type: "file", component: <ProjectsOutput /> },
       "devflow.md": { type: "file", component: <ProjectsOutput projectId="01" /> },
-      "skill_evaluator.md": { type: "file", component: <ProjectsOutput projectId="02" /> },
+      "stuxnet.md": { type: "file", component: <ProjectsOutput projectId="02" /> },
+      "skill_evaluator.md": { type: "file", component: <ProjectsOutput projectId="03" /> },
       "portfolio.md": { 
         type: "file", 
         component: (
@@ -316,7 +317,8 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
 │   ├── all_projects.md
 │   ├── devflow.md
 │   ├── portfolio.md
-│   └── skill_evaluator.md
+│   ├── skill_evaluator.md
+│   └── stuxnet.md
 ├── skills/
 │   ├── core_skills.md
 │   └── mobile.md

@@ -57,6 +57,22 @@ const PROJECTS: Project[] = [
   },
   {
     id: "02",
+    name: "IR-1 CENTRIFUGE SIMULATION",
+    subtitle: "Stuxnet Demo",
+    date: "Jul 2026",
+    desc: "An interactive, high-fidelity simulation of an IR-1 gas centrifuge cascade demonstrating the mechanics of physical-cyber attacks.",
+    highlights: [
+      "Decoupled 3-tier architecture isolating physics engine from UI.",
+      "Discrete-tick physics backend for real-time separation calculations.",
+      "Stateless PLC middleware relay simulating network hubs and MITM attacks.",
+      "3D ECS visualization of centrifuge physical telemetry."
+    ],
+    tech: ["Rust", "Python", "React", "Three.js", "WebSocket"],
+    code: `{\n  "name": "IR-1 Sim",\n  "type": "Physics Engine",\n  "status": "Vulnerable",\n  "architecture": "3-Tier"\n}`,
+    repoUrl: "https://github.com/Keshav-Tejra04"
+  },
+  {
+    id: "03",
     name: "SKILL EVALUATOR",
     subtitle: "AI Career Matchmaker",
     date: "Dec 2025",
@@ -71,7 +87,7 @@ const PROJECTS: Project[] = [
     liveUrl: "https://github.com/Keshav-Tejra04"
   },
   {
-    id: "03",
+    id: "04",
     name: "KESHAV OS PORTFOLIO",
     subtitle: "Dual-Interface Web Portfolio",
     date: "Jun 2026",
