@@ -372,14 +372,16 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
       <main className="max-w-7xl mx-auto px-6 sm:px-12 py-12 flex flex-col gap-28">
 
         {/* HERO SECTION (Image 1 styled) */}
+        {/* HERO SECTION (Image 1 styled) */}
         <motion.section
           id="hero"
-          className="min-h-[80vh] flex flex-col justify-center relative pt-8 pb-12"
+          className="min-h-[80vh] flex flex-col lg:flex-row justify-between gap-8 lg:gap-4 items-center relative pt-8 pb-12"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex flex-col gap-4 max-w-3xl">
+          {/* Left Text Content */}
+          <div className="flex flex-col gap-4 flex-1 pr-4 lg:pr-8">
             {/* Terminal Command Line */}
             <div className="flex items-center gap-2 text-xs sm:text-sm text-gui-secondary">
               <span className="text-gui-primary">guest@portfolio:~</span>
@@ -388,12 +390,13 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
             </div>
 
             {/* Giant Title */}
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black text-white leading-none tracking-tight mt-4">
-              KESHAV TEJRA
+            <h1 className="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl min-[1400px]:text-8xl font-black text-white leading-none tracking-tight mt-2 flex flex-wrap gap-x-3 md:gap-x-5">
+              <span>KESHAV</span>
+              <span>TEJRA</span>
             </h1>
 
             {/* Co-Founder Bullet pill */}
-            <div className="flex items-center gap-2 text-gui-primary font-bold text-base sm:text-lg mt-2 h-8">
+            <div className="flex items-center gap-2 text-gui-primary font-bold text-base sm:text-lg mt-1 h-8">
               <span className="text-sm">►</span>
               <AnimatePresence mode="popLayout">
                 <motion.span
@@ -431,6 +434,43 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                 Get in Touch
               </button>
             </div>
+          </div>
+
+          {/* Right Image/Terminal Link (Desktop only) */}
+          <div className="hidden lg:flex justify-center items-center relative group">
+            <div 
+              className="relative w-[580px] h-[380px] bg-[#0a0a0c] rounded-xl overflow-hidden border border-gui-border/40 shadow-2xl cursor-pointer transform transition-all duration-300 group-hover:border-gui-primary/50 group-hover:shadow-[0_0_30px_rgba(255,0,85,0.15)] group-hover:scale-[1.02] flex flex-col font-mono"
+              onClick={() => setMode("terminal")}
+            >
+              {/* Terminal Header */}
+              <div className="h-8 bg-[#161B22] border-b border-gui-border/30 flex items-center px-4 gap-2">
+                <div className="w-3 h-3 rounded-full bg-[#FF5F56]" />
+                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                <div className="w-3 h-3 rounded-full bg-[#27C93F]" />
+                <span className="text-gray-500 text-xs flex-grow text-center font-bold tracking-wider mr-8">bash - portfolio</span>
+              </div>
+              
+              {/* Terminal Body */}
+              <div className="p-6 flex flex-col gap-3 text-sm sm:text-base flex-grow">
+                <div className="flex gap-2">
+                  <span className="text-gui-primary font-bold">guest@portfolio:~$</span>
+                  <span className="text-gray-200">whoami</span>
+                </div>
+                <div className="text-gray-300">keshav_tejra</div>
+                <div className="flex gap-2 mt-2">
+                  <span className="text-gui-primary font-bold">guest@portfolio:~$</span>
+                  <span className="text-gray-200">./init_terminal.sh</span>
+                </div>
+                <div className="text-[#00FF88] mt-2 font-bold tracking-wider">System Ready.</div>
+                <div className="flex gap-2 mt-4 items-center">
+                  <span className="text-gray-300 font-bold">
+                    &gt; Click anywhere to start terminal<span className="inline-block w-2.5 h-4 bg-gui-primary ml-1 align-middle" style={{ animation: 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* Ambient background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[300px] bg-gui-primary/5 blur-[120px] -z-10 group-hover:bg-gui-primary/20 transition-all duration-500" />
           </div>
         </motion.section>
 

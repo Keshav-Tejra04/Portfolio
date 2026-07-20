@@ -6,7 +6,7 @@ import { Terminal } from "@/components/Terminal";
 import { GuiPortfolio } from "@/components/GuiPortfolio";
 
 export default function Home() {
-  const [mode, setMode] = useState<"terminal" | "gui">("terminal");
+  const [mode, setMode] = useState<"terminal" | "gui">("gui");
 
   return (
     <main className={`flex-1 h-full w-full ${mode === "terminal" ? "overflow-hidden" : ""}`}>
