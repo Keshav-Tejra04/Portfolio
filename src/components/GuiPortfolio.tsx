@@ -68,7 +68,7 @@ const PROJECTS: Project[] = [
       "3D ECS visualization of centrifuge physical telemetry."
     ],
     tech: ["Rust", "Python", "React", "Three.js", "WebSocket"],
-    code: `{\n  "name": "IR-1 Centrifuge Sim",\n  "architecture": "Decoupled 3-Tier (Physics | Relay | HMI)",\n  "physics_tick_rate": "100ms",\n  "status": "COMPROMISED (MITM Attack Active)",\n  "vulnerability": "Stateless PLC Relay Interception",\n  "rotor_speed": "450.0 m/s (Spoofed: 450 / Real: 300)"\n}`,
+    code: `{\n  "name": "IR-1 Centrifuge Sim",\n  "architecture": "Decoupled 3-Tier (Physics | Relay | HMI)",\n  "status": "COMPROMISED (MITM Attack Active)",\n  "vulnerability": "Stateless PLC Relay Interception"\n}`,
     repoUrl: "https://github.com/Keshav-Tejra04"
   },
   {
@@ -212,7 +212,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !subject || !message) return;
-    
+
     setSubmitStatus("sending");
     setFormSent(true);
 
@@ -235,23 +235,23 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
         },
         body: bodyParams.toString(),
       })
-      .then(() => {
-        setSubmitStatus("success");
-        setEmail("");
-        setSubject("");
-        setMessage("");
-        setTimeout(() => {
-          setSubmitStatus("idle");
-          setFormSent(false);
-        }, 3000);
-      })
-      .catch(() => {
-        setSubmitStatus("error");
-        setTimeout(() => {
-          setSubmitStatus("idle");
-          setFormSent(false);
-        }, 3000);
-      });
+        .then(() => {
+          setSubmitStatus("success");
+          setEmail("");
+          setSubject("");
+          setMessage("");
+          setTimeout(() => {
+            setSubmitStatus("idle");
+            setFormSent(false);
+          }, 3000);
+        })
+        .catch(() => {
+          setSubmitStatus("error");
+          setTimeout(() => {
+            setSubmitStatus("idle");
+            setFormSent(false);
+          }, 3000);
+        });
     } else {
       setSubmitStatus("error");
       setTimeout(() => {
@@ -493,7 +493,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                 {`    ]\n`}
                 {`  },\n`}
                 {`  `}<span className="text-gui-secondary">"focus"</span>{`: `}<span className="text-[#00FF88]">"Learning and Building"</span>{`,\n`}
-                
+
                 {`  `}<span className="text-gui-secondary">"based_in"</span>{`: `}<span className="text-[#00FF88]">"Indore, IN"</span>{`,\n`}
                 {`  `}<span className="text-gui-secondary">"status"</span>{`: `}<span className="text-[#00FF88]">"overclocked"</span>{`,\n`}
                 {`  `}<span className="text-gui-secondary">"todo_list"</span>{`: `}<span className="text-[#00FF88]">"we_dont_talk_about_it"</span>{`\n`}
@@ -721,8 +721,8 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                   key={category}
                   onClick={() => setSelectedSkillCategory(category)}
                   className={`px-3 py-1 rounded text-xs font-bold transition-all cursor-pointer font-mono ${selectedSkillCategory === category
-                      ? "bg-gui-primary text-white shadow-[0_0_10px_rgba(255,0,85,0.3)]"
-                      : "bg-[#181D26] text-gray-400 hover:bg-[#202733] hover:text-white"
+                    ? "bg-gui-primary text-white shadow-[0_0_10px_rgba(255,0,85,0.3)]"
+                    : "bg-[#181D26] text-gray-400 hover:bg-[#202733] hover:text-white"
                     }`}
                 >
                   {category}
