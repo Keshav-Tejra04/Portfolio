@@ -68,7 +68,7 @@ const PROJECTS: Project[] = [
       "3D ECS visualization of centrifuge physical telemetry."
     ],
     tech: ["Rust", "Python", "React", "Three.js", "WebSocket"],
-    code: `{\n  "name": "IR-1 Sim",\n  "type": "Physics Engine",\n  "status": "Vulnerable",\n  "architecture": "3-Tier"\n}`,
+    code: `{\n  "name": "IR-1 Centrifuge Sim",\n  "architecture": "Decoupled 3-Tier (Physics | Relay | HMI)",\n  "physics_tick_rate": "100ms",\n  "status": "COMPROMISED (MITM Attack Active)",\n  "vulnerability": "Stateless PLC Relay Interception",\n  "rotor_speed": "450.0 m/s (Spoofed: 450 / Real: 300)"\n}`,
     repoUrl: "https://github.com/Keshav-Tejra04"
   },
   {
@@ -614,8 +614,24 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
                     </ul>
 
                     {/* JSON Miniature Syntax Preview */}
-                    <pre className="p-4 bg-[#07070A] rounded border border-gui-border/20 text-xs text-gui-primary overflow-x-auto font-mono">
-                      <code>{project.code}</code>
+                    <pre className="p-4 bg-[#07070A] rounded border border-gui-border/20 text-xs overflow-x-auto font-mono">
+                      <code>
+                        {project.code.split("\n").map((line, idx) => {
+                          const match = line.match(/^(\s*)("(?:[^"\\]|\\.)*")(\s*:\s*)(.*)$/);
+                          if (match) {
+                            const [, indent, key, colon, value] = match;
+                            return (
+                              <div key={idx}>
+                                <span>{indent}</span>
+                                <span className="text-gui-secondary">{key}</span>
+                                <span className="text-gray-400">{colon}</span>
+                                <span className="text-[#00FF88]">{value}</span>
+                              </div>
+                            );
+                          }
+                          return <div key={idx} className="text-gray-400">{line}</div>;
+                        })}
+                      </code>
                     </pre>
 
                     {/* Tech Tags */}
