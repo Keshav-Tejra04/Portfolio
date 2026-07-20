@@ -14,7 +14,7 @@ export function AboutOutput() {
       </p>
 
       <p>
-        Currently I am the Co-Founder and Full-Stack Developer at <span className="text-terminal-primary">Scratchbox</span>, where I independently architect and develop a live Learning Management System serving more than 2,000 active users.
+        Currently I am the Co-Founder and Full-Stack Developer at <span className="text-terminal-primary">Scratchbox</span>, where I independently architect and develop a live Learning Management System serving more than 4,000 active users.
       </p>
 
       <p>

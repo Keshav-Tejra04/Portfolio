@@ -426,7 +426,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
 
             {/* Subtitle Bio */}
             <p className="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl mt-4 font-mono">
-              CS undergrad shipping production systems — from database schema to deployed frontend. Currently scaling <a href="https://scratchbox.com" target="_blank" rel="noopener noreferrer" className="text-gui-primary hover:underline decoration-1">Scratchbox</a> to 2,000+ developers.
+              CS undergrad shipping production systems — from database schema to deployed frontend. Currently scaling <a href="https://scratchbox.com" target="_blank" rel="noopener noreferrer" className="text-gui-primary hover:underline decoration-1">Scratchbox</a> to 4,000+ developers.
             </p>
 
             {/* CTA Buttons */}
@@ -505,7 +505,7 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
             </p>
 
             <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
-              I co-founded <a href="https://scratchbox.com" target="_blank" rel="noopener noreferrer" className="text-gui-primary underline hover:text-gui-secondary decoration-gui-primary/50 transition-colors">Scratchbox</a>, a coding-practice platform now serving 2,000+ developers, where I own everything from the database schema to the pixels on screen.
+              I co-founded <a href="https://scratchbox.com" target="_blank" rel="noopener noreferrer" className="text-gui-primary underline hover:text-gui-secondary decoration-gui-primary/50 transition-colors">Scratchbox</a>, a coding-practice platform now serving 4,000+ developers, where I own everything from the database schema to the pixels on screen.
             </p>
 
             <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
