@@ -158,6 +158,9 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
             <span className="text-terminal-primary font-bold">whoami</span>
             <span>Display author profile information</span>
 
+            <span className="text-terminal-primary font-bold">resume</span>
+            <span>Download Keshav Tejra's Resume</span>
+
             <span className="text-terminal-primary font-bold">mail</span>
             <span>Compose and send an email message</span>
 
@@ -416,6 +419,13 @@ export const COMMANDS: Record<string, { description: string; handler: CommandHan
   skills: { description: "View technical skills list", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/core_skills.md"], ctx) },
   mobile: { description: "View mobile app technologies", handler: (args, ctx) => COMMANDS.cat.handler(["~/skills/mobile.md"], ctx) },
   contact: { description: "View my contact channels", handler: (args, ctx) => COMMANDS.cat.handler(["~/contact.txt"], ctx) },
+  resume: {
+    description: "Download Keshav Tejra's Resume",
+    handler: () => {
+      window.open("/Keshav_Tejra_Resume.pdf", "_blank");
+      return <div className="text-terminal-secondary">Downloading resume...</div>;
+    },
+  },
   github: {
     description: "Open my GitHub profile",
     handler: () => {

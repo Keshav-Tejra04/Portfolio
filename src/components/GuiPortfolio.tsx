@@ -313,10 +313,16 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-gray-400">
-            {["about", "experience", "projects", "skills", "education", "contact"].map((section) => (
+            {["about", "experience", "projects", "skills", "education", "resume", "contact"].map((section) => (
               <button
                 key={section}
-                onClick={() => scrollToSection(section)}
+                onClick={() => {
+                  if (section === "resume") {
+                    window.open("/Keshav_Tejra_Resume.pdf", "_blank");
+                  } else {
+                    scrollToSection(section);
+                  }
+                }}
                 className={`hover:text-gui-primary transition-all cursor-pointer ${activeSection === section ? "text-gui-primary font-bold border-b border-gui-primary pb-0.5" : ""
                   }`}
               >
@@ -355,10 +361,16 @@ export function GuiPortfolio({ setMode }: GuiPortfolioProps) {
             exit={{ opacity: 0, y: -20 }}
             className="fixed inset-x-0 top-[70px] bg-[#07070A] border-b border-gui-border/40 z-40 p-6 flex flex-col gap-4 text-sm font-bold uppercase md:hidden"
           >
-            {["about", "experience", "projects", "skills", "education", "contact"].map((section) => (
+            {["about", "experience", "projects", "skills", "education", "resume", "contact"].map((section) => (
               <button
                 key={section}
-                onClick={() => scrollToSection(section)}
+                onClick={() => {
+                  if (section === "resume") {
+                    window.open("/Keshav_Tejra_Resume.pdf", "_blank");
+                  } else {
+                    scrollToSection(section);
+                  }
+                }}
                 className={`text-left py-2 hover:text-gui-primary transition-all border-b border-gui-border/10 ${activeSection === section ? "text-gui-primary" : "text-gray-400"
                   }`}
               >
